@@ -2,7 +2,7 @@
   <div>
     <div class="page-wrapper">
       <HeaderDefault />
-      <nuxt></nuxt>
+      <nuxt />
       <footer-default></footer-default>
       <button
         id="scroll-top"

@@ -7,7 +7,7 @@
             <div class="swiper-slide">
               <div
                 class="intro-slide"
-                v-lazy:background-image="'./images/home/sliders/slide-1.jpg'"
+                v-lazy:background-image="'/images/home/sliders/slide-1.jpg'"
               >
                 <div class="container intro-content">
                   <h3 class="intro-subtitle">Bedroom Furniture</h3>
@@ -26,7 +26,7 @@
             <div class="swiper-slide">
               <div
                 class="intro-slide"
-                v-lazy:background-image="'./images/home/sliders/slide-2.jpg'"
+                v-lazy:background-image="'/images/home/sliders/slide-2.jpg'"
               >
                 <div class="container intro-content">
                   <h3 class="intro-subtitle">Deals and Promotions</h3>
@@ -47,7 +47,7 @@
             <div class="swiper-slide">
               <div
                 class="intro-slide"
-                v-lazy:background-image="'./images/home/sliders/slide-3.jpg'"
+                v-lazy:background-image="'/images/home/sliders/slide-3.jpg'"
               >
                 <div class="container intro-content">
                   <h3 class="intro-subtitle">Living Room</h3>
@@ -104,7 +104,7 @@
             >
               <a href="#">
                 <img
-                  v-lazy="'./images/home/banners/banner-1.jpg'"
+                  v-lazy="'/images/home/banners/banner-1.jpg'"
                   width="470"
                   height="510"
                   alt="Banner"
@@ -130,7 +130,7 @@
             <div class="banner banner-overlay banner-2">
               <a href="#">
                 <img
-                  v-lazy="'./images/home/banners/banner-2.jpg'"
+                  v-lazy="'/images/home/banners/banner-2.jpg'"
                   width="290"
                   height="510"
                   alt="Banner"
@@ -164,7 +164,7 @@
                 <div class="banner banner-overlay banner-3">
                   <a href="#">
                     <img
-                      v-lazy="'./images/home/banners/banner-3.jpg'"
+                      v-lazy="'/images/home/banners/banner-3.jpg'"
                       width="370"
                       height="245"
                       alt="Banner"
@@ -196,7 +196,7 @@
                 >
                   <a href="#">
                     <img
-                      v-lazy="'./images/home/banners/banner-4.jpg'"
+                      v-lazy="'/images/home/banners/banner-4.jpg'"
                       width="370"
                       height="245"
                       alt="Banner"
@@ -266,7 +266,7 @@
                   class="justify-content-center d-flex"
                 >
                   <img
-                    v-lazy="'./images/home/deal/product-1.jpg'"
+                    v-lazy="'/images/home/deal/product-1.jpg'"
                     width="440"
                     height="460"
                     alt="image"
@@ -282,7 +282,7 @@
             >
               <nuxt-link to="/shop/sidebar/list">
                 <img
-                  v-lazy="'./images/home/banners/banner-5.jpg'"
+                  v-lazy="'/images/home/banners/banner-5.jpg'"
                   alt="Banner"
                   width="280"
                   height="500"
@@ -374,7 +374,7 @@
     </div>
     <div
       class="footer-newsletter bg-image"
-      v-lazy:background-image="'./images/backgrounds/bg-2.jpg'"
+      v-lazy:background-image="'/images/backgrounds/bg-2.jpg'"
     >
       <div class="container">
         <div class="heading text-center">

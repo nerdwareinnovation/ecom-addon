@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["./stores/**", "./custom-folder/stores/**"],
   },
+
   css: [
     "~/static/vendor/line-awesome/css/line-awesome.min.css",
     "~/static/css/fonts-molla.min.css",

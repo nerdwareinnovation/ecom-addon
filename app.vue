@@ -2,8 +2,11 @@
   <div>
     <NuxtRouteAnnouncer />
     <HeaderDefault />
+    <!-- <NuxtLayout> -->
     <NuxtPage />
-
+    <!-- </NuxtLayout> -->
+    <!-- <slot > -->
+    <FooterDefault />
     <!-- <NuxtWelcome /> -->
   </div>
 </template>
@@ -26,4 +29,5 @@ import { Swiper } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import FooterDefault from "./components/partial/footers/FooterDefault.vue";
 </script>
