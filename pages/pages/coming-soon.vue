@@ -6,7 +6,7 @@
                     <div class="soon-content text-center">
                         <div class="soon-content-wrapper">
                             <img
-                                src="~/static/images/logo-icon.png"
+                                src="/images/logo-icon.png"
                                 width="26"
                                 height="25"
                                 alt="Logo"
