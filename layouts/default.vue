@@ -2,8 +2,10 @@
   <div>
     <div class="page-wrapper">
       <HeaderDefault />
-      <nuxt />
-      <footer-default></footer-default>
+      <!-- <nuxt /> -->
+      <slot />
+      <FooterDefault />
+
       <button
         id="scroll-top"
         ref="scrollTop"
@@ -20,14 +22,14 @@
 
 <script>
 import HeaderDefault from "~/components/partial/headers/HeaderDefault";
-import FooterDefault from "~/components/partial/footers/FooterDefault";
+import FooterDefault from "./components/partial/footers/FooterDefault.vue";
 import { isSafariBrowser, isEdgeBrowser } from "~/utilities/common";
-import HeaderDefault from "~/components/partial/headers/HeaderDefault.vue";
+// import HeaderDefault from "~/components/partial/headers/HeaderDefault.vue";
 
 export default {
   components: {
     HeaderDefault,
-    FooterDefault: () => import("~/components/partial/footers/FooterDefault"),
+    // FooterDefault: () => import("~/components/partial/footers/FooterDefault"),
     MobileMenu: () => import("~/components/partial/home/MobileMenu"),
   },
   mounted: function () {
