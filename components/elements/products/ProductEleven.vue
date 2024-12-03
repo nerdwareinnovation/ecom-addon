@@ -48,6 +48,7 @@
   </div>
 </template>
 <!-- <script>
+<!-- <script>
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/repositories/repository';
 export default {
