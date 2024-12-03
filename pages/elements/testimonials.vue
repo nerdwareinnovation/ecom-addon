@@ -341,7 +341,7 @@
               <div class="swiper-wrapper">
                 <div class="swiper-slide">
                   <blockquote class="testimonial text-center">
-                    <img src="images/testimonials/user-1.jpg" alt="user" />
+                    <img src="./images/testimonials/user-1.jpg" alt="user" />
                     <p>
                       “ Lorem ipsum dolor sit amet, consectetuer adipiscing
                       elit. Phasellus hendrerit. Pellentesque aliquet nibh nec
@@ -360,7 +360,7 @@
 
                 <div class="swiper-slide">
                   <blockquote class="testimonial text-center">
-                    <img src="images/testimonials/user-2.jpg" alt="user" />
+                    <img src="./images/testimonials/user-2.jpg" alt="user" />
                     <p>
                       “ Impedit, ratione sequi, sunt incidunt magnam et.
                       Delectus obcaecati optio eius error libero perferendis
@@ -402,7 +402,7 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <blockquote class="testimonial text-center">
-                  <img src="/images/testimonials/user-1.jpg" alt="user" />
+                  <img src="./images/testimonials/user-1.jpg" alt="user" />
                   <p>
                     “ Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                     Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In
@@ -417,7 +417,7 @@
               </div>
               <div class="swiper-slide">
                 <blockquote class="testimonial text-center">
-                  <img src="/images/testimonials/user-2.jpg" alt="user" />
+                  <img src="./images/testimonials/user-2.jpg" alt="user" />
                   <p>
                     “ Impedit, ratione sequi, sunt incidunt magnam et. Delectus
                     obcaecati optio eius error libero perferendis nesciunt atque
@@ -433,7 +433,7 @@
               </div>
               <div class="swiper-slide">
                 <blockquote class="testimonial text-center">
-                  <img src="/images/testimonials/user-1.jpg" alt="user" />
+                  <img src="./images/testimonials/user-1.jpg" alt="user" />
                   <p>
                     “ Molestias animi illo natus ut quod neque ad accusamus
                     praesentium fuga! Dolores odio alias sapiente odit delectus

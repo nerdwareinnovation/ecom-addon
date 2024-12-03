@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       },
     ],
     "nuxt-swiper",
+    "nuxt-easy-lightbox",
   ],
   pinia: {
     storesDirs: ["./stores/**", "./custom-folder/stores/**"],

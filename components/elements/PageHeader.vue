@@ -1,7 +1,7 @@
 <template>
   <div
     class="page-header text-center"
-    v-lazy:background-image="'./images/page-header-bg.jpg'"
+    v-lazy:background-image="'/images/page-header-bg.jpg'"
   >
     <div class="container">
       <h1 class="page-title">

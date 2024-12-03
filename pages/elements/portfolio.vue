@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<main class="main">
 		<page-header
 			title="Portfolio"
@@ -389,5 +389,121 @@ export default {
 			e.currentTarget.parentElement.classList.add('active');
 		}
 	}
+};
+</script> -->
+
+<template>
+  <main class="main">
+    <page-header title="Portfolio" subtitle="Elements"></page-header>
+
+    <nav class="breadcrumb-nav">
+      <div class="container">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <router-link to="/">Home</router-link>
+          </li>
+          <li class="breadcrumb-item">
+            <router-link to="/elements">Elements</router-link>
+          </li>
+          <li class="breadcrumb-item active">Portfolio</li>
+        </ol>
+      </div>
+    </nav>
+
+    <div class="page-content" v-show="loaded">
+      <div class="container">
+        <h2 class="title text-center mb-2">Grid 3 Columns</h2>
+
+        <nav class="portfolio-nav">
+          <ul class="nav-filter portfolio-filter justify-content-center">
+            <li :class="{ active: activeFilter === 'all' }">
+              <a href="#" @click.prevent="filterItems('all')">All</a>
+            </li>
+            <li :class="{ active: activeFilter === 'women' }">
+              <a href="#" @click.prevent="filterItems('women')">Women</a>
+            </li>
+            <li :class="{ active: activeFilter === 'men' }">
+              <a href="#" @click.prevent="filterItems('men')">Men</a>
+            </li>
+            <li :class="{ active: activeFilter === 'accessories' }">
+              <a href="#" @click.prevent="filterItems('accessories')"
+                >Accessories</a
+              >
+            </li>
+          </ul>
+        </nav>
+
+        <div ref="isotopeGrid" class="portfolio-container row">
+          <portfolio-item
+            v-for="(item, index) in filteredItems"
+            :key="index"
+            :image="item.image"
+            :category="item.category"
+            :class="`portfolio-item col-sm-6 col-lg-4 ${item.class}`"
+          ></portfolio-item>
+
+          <div class="grid-sizer col-sm-6 col-lg-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <element-list></element-list>
+  </main>
+</template>
+<script>
+import Isotope from "isotope-layout";
+import PageHeader from "~/components/elements/PageHeader";
+import PortfolioItem from "~/components/elements/portfolio/PortfolioOne";
+import ElementList from "~/components/partial/elements/ElementList";
+import { portfolio1 } from "~/utilities/data";
+
+export default {
+  components: {
+    PageHeader,
+    PortfolioItem,
+    ElementList,
+  },
+  data() {
+    return {
+      loaded: false,
+      isotopeInstance: null,
+      activeFilter: "all",
+      portfolioItems: portfolio1,
+    };
+  },
+  computed: {
+    filteredItems() {
+      return this.activeFilter === "all"
+        ? this.portfolioItems
+        : this.portfolioItems.filter((item) =>
+            item.class.includes(this.activeFilter)
+          );
+    },
+  },
+  mounted() {
+    this.initIsotope();
+  },
+  methods: {
+    initIsotope() {
+      this.$nextTick(() => {
+        this.isotopeInstance = new Isotope(this.$refs.isotopeGrid, {
+          itemSelector: ".portfolio-item",
+          layoutMode: "masonry",
+          percentPosition: true,
+          masonry: {
+            columnWidth: ".grid-sizer",
+          },
+        });
+
+        this.loaded = true;
+      });
+    },
+    filterItems(filter) {
+      this.activeFilter = filter;
+      this.isotopeInstance.arrange({
+        filter: filter === "all" ? "*" : `.${filter}`,
+      });
+    },
+  },
 };
 </script>
