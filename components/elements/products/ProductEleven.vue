@@ -44,7 +44,7 @@
         </div>
     </div>
 </template>
-<script>
+<!-- <script>
 import { mapGetters, mapActions } from 'vuex';
 import { baseUrl } from '~/repositories/repository';
 export default {
@@ -78,4 +78,28 @@ export default {
         this.maxPrice = max;
     }
 };
+</script> -->
+
+<script setup>
+import { baseUrl } from '~/repositories/repository';
+// cosnt product= props.product;
+const maxPrice= ref(0)
+const minPrice = ref(99999)
+onMounted(()=>{
+    let min = minPrice.value;
+    let max= maxPrice.value;
+    product.value.variants.map((item)=>{
+        if (min > item.price) min = item.price;
+        if (max < item.price) max = item.price;
+    },[]);
+    if (product.value.variants.length == 0) {
+            min = product.value.sale_price
+                ? product.value.sale_price
+                : product.value.price;
+            max = product.value.price;
+        }
+
+        minPrice.value = min;
+        maxPrice.value = max;
+})
 </script>
