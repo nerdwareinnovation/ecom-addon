@@ -1,40 +1,46 @@
 <template>
-    <main class="main">
-        <breadcrumb :prev-product="prevProduct" :next-product="nextProduct" current="Extended"></breadcrumb>
+  <main class="main">
+    <breadcrumb
+      :prev-product="prevProduct"
+      :next-product="nextProduct"
+      current="Extended"
+    ></breadcrumb>
 
-        <div class="page-content">
-            <div class="container skeleton-body">
-                <div class="product-details-top">
-                    <div class="skel-pro-single gallery mb-4" :class="{loaded: loaded}">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="skel-product-gallery"></div>
-                                <gallery-extended :product="product"></gallery-extended>
-                            </div>
-                            <div class="col-12">
-                                <div class="entry-summary row mt-5">
-                                    <div class="col-6">
-                                        <div class="entry-summary1"></div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="entry-summary2"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <detail-three :product="product" v-if="product"></detail-three>
+    <div class="page-content">
+      <div class="container skeleton-body">
+        <div class="product-details-top">
+          <div class="skel-pro-single gallery mb-4" :class="{ loaded: loaded }">
+            <div class="row">
+              <div class="col-12">
+                <div class="skel-product-gallery"></div>
+                <gallery-extended :product="product"></gallery-extended>
+              </div>
+              <div class="col-12">
+                <div class="entry-summary row mt-5">
+                  <div class="col-6">
+                    <div class="entry-summary1"></div>
+                  </div>
+                  <div class="col-6">
+                    <div class="entry-summary2"></div>
+                  </div>
                 </div>
-
-                <info-one></info-one>
-
-                <related-products-one :products="relatedProducts"></related-products-one>
+              </div>
             </div>
+          </div>
+
+          <detail-three :product="product" v-if="product"></detail-three>
         </div>
-    </main>
+
+        <info-one></info-one>
+
+        <related-products-one
+          :products="relatedProducts"
+        ></related-products-one>
+      </div>
+    </div>
+  </main>
 </template>
-<script>
+<!-- <script>
 import { mapGetters } from 'vuex';
 
 import GalleryExtended from '~/components/partial/product/gallery/GalleryExtended';
@@ -87,4 +93,51 @@ export default {
         }
     }
 };
+</script> -->
+
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
+import Repository, { baseUrl } from "~/repositories/repository.js";
+
+import GalleryExtended from "~/components/partial/product/gallery/GalleryExtended";
+import DetailThree from "~/components/partial/product/details/DetailThree";
+import InfoOne from "~/components/partial/product/info-tabs/InfoOne";
+import Breadcrumb from "~/components/partial/product/BreadCrumb";
+import RelatedProductsOne from "~/components/partial/product/related/RelatedProductsOne";
+
+const demoStore = useDemoStore();
+const route = useRoute();
+
+const product = ref(null);
+const prevProduct = ref(null);
+const nextProduct = ref(null);
+const relatedProducts = ref([]);
+const loaded = ref(false);
+
+const currentDemo = computed(() => demoStore.getCurrentDemo);
+
+const getProduct = async () => {
+  loaded.value = false;
+  try {
+    const response = await Repository.get(
+      `${baseUrl}/products/${route.params.slug}`,
+      {
+        params: { demo: currentDemo.value },
+      }
+    );
+
+    product.value = { ...response.data.product };
+    relatedProducts.value = [...response.data.relatedProducts];
+    prevProduct.value = response.data.prevProduct;
+    nextProduct.value = response.data.nextProduct;
+    loaded.value = true;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+  }
+};
+
+onMounted(() => {
+  getProduct();
+});
 </script>

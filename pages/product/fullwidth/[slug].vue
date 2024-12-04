@@ -1,51 +1,55 @@
 <template>
-    <main class="main">
-        <breadcrumb
-            :prev-product="prevProduct"
-            :next-product="nextProduct"
-            current="Full Width"
-            :full-width="true"
-        ></breadcrumb>
+  <main class="main">
+    <breadcrumb
+      :prev-product="prevProduct"
+      :next-product="nextProduct"
+      current="Full Width"
+      :full-width="true"
+    ></breadcrumb>
 
-        <div class="page-content">
-            <div class="container-fluid skeleton-body horizontal">
-                <div class="row">
-                    <div class="col-xl-10 col-lg-9">
-                        <div class="product-details-top detail-fullwidth">
-                            <div class="row skel-pro-single" :class="{loaded: loaded}">
-                                <div class="col-md-6 col-lg-7">
-                                    <div class="skel-product-gallery"></div>
-                                    <gallery-horizontal :product="product"></gallery-horizontal>
-                                </div>
-
-                                <div class="col-md-6 col-lg-5">
-                                    <div class="entry-summary row">
-                                        <div class="col-md-12">
-                                            <div class="entry-summary1"></div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="entry-summary2"></div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="entry-summary3"></div>
-                                        </div>
-                                    </div>
-                                    <detail-one :product="product" v-if="product" class="mb-0"></detail-one>
-
-                                    <info-three v-if="loaded"></info-three>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3">
-                        <sidebar :products="relatedProducts" :loaded="loaded"></sidebar>
-                    </div>
+    <div class="page-content">
+      <div class="container-fluid skeleton-body horizontal">
+        <div class="row">
+          <div class="col-xl-10 col-lg-9">
+            <div class="product-details-top detail-fullwidth">
+              <div class="row skel-pro-single" :class="{ loaded: loaded }">
+                <div class="col-md-6 col-lg-7">
+                  <div class="skel-product-gallery"></div>
+                  <gallery-horizontal :product="product"></gallery-horizontal>
                 </div>
+
+                <div class="col-md-6 col-lg-5">
+                  <div class="entry-summary row">
+                    <div class="col-md-12">
+                      <div class="entry-summary1"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="entry-summary2"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="entry-summary3"></div>
+                    </div>
+                  </div>
+                  <detail-one
+                    :product="product"
+                    v-if="product"
+                    class="mb-0"
+                  ></detail-one>
+
+                  <info-three v-if="loaded"></info-three>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="col-xl-2 col-lg-3">
+            <sidebar :products="relatedProducts" :loaded="loaded"></sidebar>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </main>
 </template>
-<script>
+<!-- <script>
 import { mapGetters } from 'vuex';
 
 import GalleryHorizontal from '~/components/partial/product/gallery/GalleryHorizontal';
@@ -97,5 +101,42 @@ export default {
                 .catch(error => ({ error: JSON.stringify(error) }));
         }
     }
+};
+</script> -->
+
+<script setup>
+import GalleryHorizontal from "~/components/partial/product/gallery/GalleryHorizontal";
+import DetailOne from "~/components/partial/product/details/DetailOne";
+import InfoThree from "~/components/partial/product/info-tabs/InfoThree";
+import Breadcrumb from "~/components/partial/product/BreadCrumb";
+import Sidebar from "~/components/partial/product/sidebar/Sidebar";
+import Repository, { baseUrl } from "~/repositories/repository.js";
+
+const product = ref(null);
+const prevProduct = ref(null);
+const nextProduct = ref(null);
+const relatedProducts = ref([]);
+const loaded = ref(false);
+
+const demoStore = useDemoStore();
+const route = useRoute();
+const currentDemo = computed(() => demoStore.currentDemo);
+onMounted(() => {
+  getProduct();
+});
+
+const getProduct = async () => {
+  loaded.value = false;
+  await Repository.get(`${baseUrl}/products/${route.params.slug}`, {
+    params: { demo: currentDemo },
+  })
+    .then((response) => {
+      product.value = { ...response.data.product };
+      relatedProducts.value = [...response.data.relatedProducts];
+      prevProduct.value = response.data.prevProduct;
+      nextProduct.value = response.data.nextProduct;
+      loaded.value = true;
+    })
+    .catch((error) => ({ error: JSON.stringify(error) }));
 };
 </script>

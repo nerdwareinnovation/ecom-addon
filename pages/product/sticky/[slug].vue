@@ -1,43 +1,53 @@
 <template>
-    <main class="main">
-        <breadcrumb :prev-product="prevProduct" :next-product="nextProduct" current="Default"></breadcrumb>
+  <main class="main">
+    <breadcrumb
+      :prev-product="prevProduct"
+      :next-product="nextProduct"
+      current="Default"
+    ></breadcrumb>
 
-        <div class="page-content">
-            <div class="container skeleton-body">
-                <div class="product-details-top">
-                    <div class="row skel-pro-single sticky" :class="{loaded: loaded}">
-                        <div class="col-md-6">
-                            <div class="skel-product-gallery"></div>
-                            <gallery-sticky :product="product"></gallery-sticky>
-                        </div>
-
-                        <div class="col-md-6" sticky-container>
-                            <div v-sticky="shouldSticky" sticky-offset="{ top: 69 }">
-                                <div class="entry-summary row">
-                                    <div class="col-md-12">
-                                        <div class="entry-summary1"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="entry-summary2"></div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="entry-summary3"></div>
-                                    </div>
-                                </div>
-                                <detail-one :product="product" v-if="product" class="mb-0"></detail-one>
-
-                                <info-three v-if="loaded"></info-three>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <related-products-one :products="relatedProducts"></related-products-one>
+    <div class="page-content">
+      <div class="container skeleton-body">
+        <div class="product-details-top">
+          <div class="row skel-pro-single sticky" :class="{ loaded: loaded }">
+            <div class="col-md-6">
+              <div class="skel-product-gallery"></div>
+              <gallery-sticky :product="product"></gallery-sticky>
             </div>
+
+            <div class="col-md-6" sticky-container>
+              <div v-sticky="shouldSticky" sticky-offset="{ top: 69 }">
+                <div class="entry-summary row">
+                  <div class="col-md-12">
+                    <div class="entry-summary1"></div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="entry-summary2"></div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="entry-summary3"></div>
+                  </div>
+                </div>
+                <detail-one
+                  :product="product"
+                  v-if="product"
+                  class="mb-0"
+                ></detail-one>
+
+                <info-three v-if="loaded"></info-three>
+              </div>
+            </div>
+          </div>
         </div>
-    </main>
+
+        <related-products-one
+          :products="relatedProducts"
+        ></related-products-one>
+      </div>
+    </div>
+  </main>
 </template>
-<script>
+<!-- <script>
 import { mapGetters } from 'vuex';
 import Sticky from 'vue-sticky-directive';
 
@@ -106,4 +116,67 @@ export default {
         }
     }
 };
+</script> -->
+
+<script setup>
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { useRoute } from "vue-router";
+
+import Repository, { baseUrl } from "~/repositories/repository.js";
+
+import GallerySticky from "~/components/partial/product/gallery/GallerySticky";
+import DetailOne from "~/components/partial/product/details/DetailOne";
+import InfoThree from "~/components/partial/product/info-tabs/InfoThree";
+import Breadcrumb from "~/components/partial/product/BreadCrumb";
+import RelatedProductsOne from "~/components/partial/product/related/RelatedProductsOne";
+
+const demoStore = useDemoStore();
+const route = useRoute();
+
+const product = ref(null);
+const prevProduct = ref(null);
+const nextProduct = ref(null);
+const relatedProducts = ref([]);
+const loaded = ref(false);
+const shouldSticky = ref(true);
+
+const currentDemo = computed(() => demoStore.getCurrentDemo);
+
+const getProduct = async () => {
+  loaded.value = false;
+  try {
+    const response = await Repository.get(
+      `${baseUrl}/products/${route.params.slug}`,
+      {
+        params: { demo: currentDemo.value },
+      }
+    );
+
+    product.value = { ...response.data.product };
+    relatedProducts.value = [...response.data.relatedProducts];
+    prevProduct.value = response.data.prevProduct;
+    nextProduct.value = response.data.nextProduct;
+    loaded.value = true;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+  }
+};
+
+const stickyHandle = () => {
+  if (window.innerWidth > 991) {
+    shouldSticky.value = true;
+  } else {
+    shouldSticky.value = false;
+  }
+};
+
+onMounted(() => {
+  getProduct();
+  stickyHandle();
+  window.addEventListener("resize", stickyHandle, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", stickyHandle);
+});
 </script>

@@ -64,9 +64,7 @@
 import { baseUrl } from "~/repositories/repository.js";
 
 export default {
-  components: {
-    LightBox,
-  },
+  components: {},
   props: {
     product: {
       type: Object,

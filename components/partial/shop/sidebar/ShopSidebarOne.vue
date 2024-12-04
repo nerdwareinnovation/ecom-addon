@@ -177,7 +177,7 @@
   </div>
 </template>
 
-<script>
+<!-- <script>
 // import { VueSlideToggle } from 'Vue3SlideUpDown';
 import { Vue3SlideUpDown } from "vue3-slide-up-down";
 import { shopData } from "~/utilities/data";
@@ -412,5 +412,154 @@ export default {
       };
     },
   },
+};
+</script> -->
+
+<script setup>
+import { ref, computed, reactive, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { Vue3SlideUpDown } from "vue3-slide-up-down";
+import { shopData } from "~/utilities/data";
+
+// Props
+defineProps({
+  isSidebar: Boolean,
+});
+
+// Reactive data and refs
+const priceValues = ref([0, 1000]);
+const toggleStates = ref([true, true, true, true, true]);
+const loaded = ref(true);
+const priceSliderConfig = reactive({
+  connect: true,
+  step: 50,
+  margin: 100,
+  range: {
+    min: 0,
+    max: 1000,
+  },
+});
+const filterData = shopData;
+
+// Router and route
+const router = useRouter();
+const route = useRoute();
+
+// Computed properties
+const priceRangeText = computed(() => {
+  return `$${parseInt(priceValues.value[0])} — $${parseInt(
+    priceValues.value[1]
+  )}`;
+});
+
+const priceFilterRoute = computed(() => {
+  let query = { ...route.query };
+  delete query.page; // Remove "page" query param if it exists
+  return {
+    path: route.path,
+    query: {
+      ...query,
+      minPrice: priceValues.value[0],
+      maxPrice: priceValues.value[1],
+    },
+  };
+});
+
+// Lifecycle hook
+onMounted(() => {
+  document.querySelector("body")?.classList.remove("sidebar-filter-active");
+  if (route.query.minPrice && route.query.maxPrice) {
+    loaded.value = false;
+    priceValues.value = [
+      Number(route.query.minPrice),
+      Number(route.query.maxPrice),
+    ];
+    nextTick(() => {
+      loaded.value = true;
+    });
+  } else {
+    loaded.value = false;
+    nextTick(() => {
+      loaded.value = true;
+    });
+  }
+});
+
+// Methods
+const cleanAll = () => {
+  loaded.value = false;
+  priceValues.value = [0, 1000];
+  nextTick(() => {
+    loaded.value = true;
+    router.push({ path: route.path });
+  });
+};
+
+const toggleSlide = (index) => {
+  toggleStates.value = toggleStates.value.map((state, id) =>
+    id === index ? !state : state
+  );
+};
+
+const sizeChecked = (item) => {
+  return route.query.size?.split(",").includes(item.slug) ?? false;
+};
+
+const brandChecked = (item) => {
+  return route.query.brand?.split(",").includes(item.slug) ?? false;
+};
+
+const categorySelected = (item) => {
+  return route.query.category === item.slug;
+};
+
+const colorSelected = (item) => {
+  return route.query.color?.split(",").includes(item.color_name) ?? false;
+};
+
+const setSizeFilter = (item) => {
+  const query = { ...route.query };
+  if (!query.size) {
+    query.size = item.slug;
+  } else {
+    const sizes = query.size.split(",");
+    if (sizes.includes(item.slug)) {
+      query.size = sizes.filter((slug) => slug !== item.slug).join(",");
+    } else {
+      query.size = [...sizes, item.slug].join(",");
+    }
+  }
+  router.push({ path: route.path, query });
+};
+
+const setBrandFilter = (item) => {
+  const query = { ...route.query };
+  if (!query.brand) {
+    query.brand = item.slug;
+  } else {
+    const brands = query.brand.split(",");
+    if (brands.includes(item.slug)) {
+      query.brand = brands.filter((slug) => slug !== item.slug).join(",");
+    } else {
+      query.brand = [...brands, item.slug].join(",");
+    }
+  }
+  router.push({ path: route.path, query });
+};
+
+const getColorUrl = (item) => {
+  const query = { ...route.query };
+  if (!query.color) {
+    query.color = item.color_name;
+  } else {
+    const colors = query.color.split(",");
+    if (colors.includes(item.color_name)) {
+      query.color = colors.filter((slug) => slug !== item.color_name).join(",");
+    } else {
+      query.color = [...colors, item.color_name].join(",");
+    }
+  }
+  delete query.page; // Remove "page" param
+  return { path: route.path, query };
 };
 </script>

@@ -193,91 +193,134 @@ export default {
 };
 </script> -->
 
-<script setup>
+<script>
 import PageHeader from "~/components/elements/PageHeader";
 import ShopListThree from "~/components/partial/shop/list/ShopListThree";
 import ShopSidebarOne from "~/components/partial/shop/sidebar/ShopSidebarOne";
-
 import Repository, { baseUrl } from "~/repositories/repository.js";
 import { scrollToPageContent } from "~/utilities/common";
 
-const products = ref([]);
-const perPage = ref(8);
-const type = ref("list");
-const totalCount = ref(0);
-const orderBy = ref("default");
-const isSidebar = ref(false);
-const laoded = ref(false);
-const loadMoreLoading = ref(false);
-
-const demoStore = useDemoStore();
-const route = useRoute();
-const currentDemo = computed(() => demoStore.currentDemo);
-const pageTitle = computed(() => {
-  if (this.$route.params.type == "boxed") return "Boxed No Sidebar";
-  else return "Fullwidth No Sidebar";
-});
-const containerClass = computed(() => {
-  if (this.$route.params.type == "fullwidth") return "container-fluid";
-  else return "container";
-});
-const hasMore = computed(() => {
-  return this.perPage <= this.totalCount;
-});
-watch(
-  route,
-  () => {
-    getProducts(true);
+export default {
+  components: {
+    PageHeader,
+    ShopListThree,
+    ShopSidebarOne,
   },
-  { immediate: true }
-);
-onMounted(() => {
-  getProdcuts();
-});
+  setup() {
+    // Pinia store
+    const demoStore = useDemoStore();
+    const { currentDemo } = storeToRefs(demoStore);
 
-const getProdcuts = async (samePage = false, loadMore = false) => {
-  if (!loadMore) this.loaded = false;
-  await Repository.get(`${baseUrl}/shop`, {
-    params: {
-      ...route.query,
-      orderBy: orderBy.value,
-      perPage: perPage.value,
-      demo: currentDemo.value,
-    },
-  })
-    .then((response) => {
-      products.value = response.data.products;
-      totalCount.value = response.data.totalCount;
-      loaded.value = true;
-      if (samePage) {
-        scrollToPageContent();
+    // Routing
+    const route = useRoute();
+    const router = useRouter();
+
+    // Reactive data
+    const products = ref([]);
+    const perPage = ref(8);
+    const type = ref("list");
+    const totalCount = ref(0);
+    const orderBy = ref("default");
+    const isSidebar = ref(true);
+    const loaded = ref(false);
+    const loadMoreLoading = ref(false);
+
+    // Computed properties
+    const pageTitle = computed(() =>
+      route.params.type === "boxed"
+        ? "Boxed No Sidebar"
+        : "Fullwidth No Sidebar"
+    );
+
+    const containerClass = computed(() =>
+      route.params.type === "fullwidth" ? "container-fluid" : "container"
+    );
+
+    const hasMore = computed(() => perPage.value <= totalCount.value);
+
+    // Watch route changes
+    watch(
+      () => route.fullPath,
+      () => getProducts(true)
+    );
+
+    // Fetch products
+    const getProducts = async (samePage = false, loadMore = false) => {
+      if (!loadMore) loaded.value = false;
+
+      try {
+        const { data } = await Repository.get(`${baseUrl}/shop`, {
+          params: {
+            ...route.query,
+            orderBy: orderBy.value,
+            perPage: perPage.value,
+            demo: currentDemo.value,
+          },
+        });
+        products.value = data.products;
+        totalCount.value = data.totalCount;
+        loaded.value = true;
+
+        if (samePage) {
+          scrollToPageContent();
+        }
+      } catch (error) {
+        console.error("Product Fetch Error:", error);
       }
-    })
-    .catch((error) => ({ error: JSON.stringify(error) }));
-};
-const toggleSidebar = () => {
-  if (
-    document.querySelector("body").classList.contains("sidebar-filter-active")
-  ) {
-    document.querySelector("body").classList.remove("sidebar-filter-active");
-  } else {
-    document.querySelector("body").classList.add("sidebar-filter-active");
-  }
-};
-const showSidebar = () => {
-  document.querySelector("body").classList.add("sidebar-filter-active");
-};
-const hideSidebar = () => {
-  document.querySelector("body").classList.remove("sidebar-filter-active");
-};
-const loadMore = () => {
-  if (perPage.value < totalCount.value) {
-    perPage.value += 4;
-    loadMoreLoading.value = true;
-    setTimeout(() => {
-      getProducts(false, true);
-      loadMoreLoading.value = false;
-    }, 400);
-  }
+    };
+
+    // Sidebar toggle
+    const toggleSidebar = () => {
+      const body = document.querySelector("body");
+      if (body.classList.contains("sidebar-filter-active")) {
+        body.classList.remove("sidebar-filter-active");
+      } else {
+        body.classList.add("sidebar-filter-active");
+      }
+    };
+
+    const showSidebar = () =>
+      document.querySelector("body").classList.add("sidebar-filter-active");
+
+    const hideSidebar = () =>
+      document.querySelector("body").classList.remove("sidebar-filter-active");
+
+    // Load more products
+    const loadMore = () => {
+      if (perPage.value < totalCount.value) {
+        perPage.value += 4;
+        loadMoreLoading.value = true;
+
+        setTimeout(() => {
+          getProducts(false, true);
+          loadMoreLoading.value = false;
+        }, 400);
+      }
+    };
+
+    // Lifecycle hook
+    onMounted(() => {
+      getProducts();
+    });
+
+    return {
+      products,
+      perPage,
+      type,
+      totalCount,
+      orderBy,
+      isSidebar,
+      loaded,
+      loadMoreLoading,
+      pageTitle,
+      containerClass,
+      hasMore,
+      getProducts,
+      toggleSidebar,
+      showSidebar,
+      hideSidebar,
+      loadMore,
+    };
+  },
 };
 </script>

@@ -70,8 +70,9 @@
 </template>
 <script>
 // import LightBox from 'vue-image-lightbox';
-import isotope from "vueisotope";
-import imagesLoaded from "vue-images-loaded";
+import Isotope from "isotope-layout";
+// import imagesLoaded from "vue-images-loaded";
+import imagesLoaded from "imagesloaded";
 // import { VueLazyloadImage } from "vue-lazyload";
 // import "vue-image-lightbox/dist/vue-image-lightbox.min.css";
 

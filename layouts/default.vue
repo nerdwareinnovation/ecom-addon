@@ -4,6 +4,7 @@
       <HeaderDefault />
       <!-- <nuxt /> -->
       <slot />
+
       <FooterDefault />
 
       <button
@@ -20,16 +21,16 @@
   </div>
 </template>
 
-<script>
-import HeaderDefault from "~/components/partial/headers/HeaderDefault";
-import FooterDefault from "./components/partial/footers/FooterDefault.vue";
+<!-- <script>
+// import HeaderDefault from "~/components/partial/headers/HeaderDefault";
+// import FooterDefault from "./components/partial/footers/FooterDefault.vue";
 import { isSafariBrowser, isEdgeBrowser } from "~/utilities/common";
 // import HeaderDefault from "~/components/partial/headers/HeaderDefault.vue";
 
 export default {
   components: {
     HeaderDefault,
-    // FooterDefault: () => import("~/components/partial/footers/FooterDefault"),
+    FooterDefault: () => import("~/components/partial/footers/FooterDefault"),
     MobileMenu: () => import("~/components/partial/home/MobileMenu"),
   },
   mounted: function () {
@@ -67,4 +68,62 @@ export default {
     },
   },
 };
+</script> -->
+
+<script setup>
+import { ref, onMounted } from "vue";
+
+import { isSafariBrowser, isEdgeBrowser } from "~/utilities/common";
+
+import HeaderDefault from "~/components/partial/headers/HeaderDefault.vue";
+
+const FooterDefault = defineAsyncComponent(() =>
+  import("~/components/partial/footers/FooterDefault.vue")
+);
+
+const MobileMenu = defineAsyncComponent(() =>
+  import("~/components/partial/home/MobileMenu.vue")
+);
+
+const scrollTop = ref(null);
+
+const handleScroll = () => {
+  if (window.pageYOffset >= 400) {
+    scrollTop.value.classList.add("show");
+  } else {
+    scrollTop.value.classList.remove("show");
+  }
+};
+
+const scrollToTop = () => {
+  if (isSafariBrowser() || isEdgeBrowser()) {
+    let pos = window.pageYOffset;
+
+    const timerId = setInterval(() => {
+      if (pos <= 0) clearInterval(timerId);
+
+      window.scrollBy(0, -120);
+
+      pos -= 120;
+    }, 1);
+  } else {
+    window.scrollTo({
+      top: 0,
+
+      behavior: "smooth",
+    });
+  }
+};
+
+const hideMobileMenu = () => {
+  document.querySelector("body").classList.remove("mmenu-active");
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>

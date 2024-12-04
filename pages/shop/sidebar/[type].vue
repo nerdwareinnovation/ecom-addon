@@ -157,7 +157,7 @@ import { scrollToPageContent } from "~/utilities/common";
 export default {
   components: {
     PageHeader,
-    ShopListOne,import Sticky from 'vue3-sticky-directive'
+    ShopListOne,import Sticky from '                                                                                      '
     ShopSidebarOne,
     Pagination,
   },
@@ -356,7 +356,7 @@ onBeforeUnmount(() => {
 watch(
   () => route,
   () => {
-    getProducts(true);
+    true;
   }
 );
 </script>
