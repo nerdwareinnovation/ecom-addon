@@ -172,6 +172,23 @@
             </div>
           </div>
         </Vue3SlideUpDown>
+        <!-- <ClientOnly> -->
+        <!-- <vue-slider
+            v-model="priceValues"
+            :min="minPrice"
+            :max="maxPrice"
+            :step="step"
+            :range="true"
+            v-if="loaded"
+          ></vue-slider> -->
+        <!-- <Nouislider
+          v-model="priceRange"
+          :range="{ min: minPrice, max: maxPrice }"
+          :step="step"
+          :connect="true"
+          :tooltips="[true, true]"
+        /> -->
+        <!-- </ClientOnly> -->
       </div>
     </div>
   </div>
@@ -420,16 +437,23 @@ import { ref, computed, reactive, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { Vue3SlideUpDown } from "vue3-slide-up-down";
 import { shopData } from "~/utilities/data";
-
+// import Nouislider from "vue3-nouislider";
+// import 'nouislider/dist/nouislider.css';
+// import VueSlider from "vue-slider-component";
+// import "vue-slider-component/theme/default.css";
 // Props
 defineProps({
   isSidebar: Boolean,
 });
 
 // Reactive data and refs
+const value = ref(0);
 const priceValues = ref([0, 1000]);
 const toggleStates = ref([true, true, true, true, true]);
 const loaded = ref(true);
+const minPrice = ref(0);
+const maxPrice = ref(1000);
+const step = ref(50);
 const priceSliderConfig = reactive({
   connect: true,
   step: 50,

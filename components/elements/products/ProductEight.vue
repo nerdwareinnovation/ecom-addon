@@ -1,5 +1,6 @@
 <template>
   <div class="product product-list">
+    Hello
     <div class="row pr-2">
       <div class="col-lg-3 col-md-3 col-6">
         <figure class="product-media">
@@ -223,7 +224,7 @@ const minPrice = ref(99999);
 const canAddToCart = computed(() => useCartStore.canAddToCart);
 const isInWishlist = computed(() => useWishlistStore.isInWishlist);
 const isInCompare = computed(() => useCompareStore.isInCompare);
-onCreated(() => {
+onMounted(() => {
   if (props.product.variants.length > 0) {
     props.product.variants.forEach((item) => {
       if (minPrice.value > item.price) minPrice.value = item.price;

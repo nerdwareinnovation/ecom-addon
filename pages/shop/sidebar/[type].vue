@@ -275,7 +275,7 @@ const totalCount = ref(0);
 const orderBy = ref("default");
 const isSidebar = ref(true);
 const loaded = ref(true);
-
+const pageTitle = ref("");
 const demoStore = useDemoStore();
 const currentDemo = computed(() => demoStore.currentDemo);
 
@@ -284,6 +284,8 @@ const router = useRouter();
 
 const getProducts = async (samePage = false) => {
   type.value = route.params.type;
+  console.log(type.value);
+  console.log("pageTitle");
 
   switch (type.value) {
     case "list":
@@ -307,19 +309,24 @@ const getProducts = async (samePage = false) => {
   }
 
   loaded.value = false;
-  try {
-    const response = await Repository.get(`${baseUrl}/shop`, {
-      params: {
-        ...route.query,
-        orderBy: orderBy.value,
-        perPage: perPage.value,
-        demo: currentDemo.value,
-      },
-    });
 
-    products.value = response.data.products;
-    totalCount.value = response.data.totalCount;
-    loaded.value = true;
+  try {
+    // const response = await Repository.get(`${baseUrl}/api/provider`, {
+    //   params: {
+    //     ...route.query,
+    //     orderBy: orderBy.value,
+    //     perPage: perPage.value,
+    //     demo: currentDemo.value,
+    //   },
+    // });
+    // products.value = response.data.products;
+    // totalCount.value = response.data.totalCount;
+
+    //working product fetch from api
+    // const response = await Repository.get(`${baseUrl}/api/Products`);
+    // products.value = response.data.products;
+    // totalCount.value = response.data.totalRows;
+    // loaded.value = true;
 
     if (samePage) {
       scrollToPageContent();
@@ -343,6 +350,7 @@ const resizeHandler = () => {
   isSidebar.value = window.innerWidth <= 991;
 };
 onMounted(() => {
+  // console.log("hello");
   getProducts();
   resizeHandler();
   window.addEventListener("resize", resizeHandler, { passive: true });
