@@ -34,6 +34,7 @@ export const useCartStore = defineStore("cart", {
 
   actions: {
     addToCart(payload) {
+      console.log(payload.qty);
       const { $toast } = useNuxtApp();
       if (!this.canAddToCart(payload.product, payload.qty)) {
         $toast.error("Sorry, you can't add that amount to the cart.");
@@ -100,4 +101,5 @@ export const useCartStore = defineStore("cart", {
       $toast.success("Cart cleared");
     },
   },
+  persist: true,
 });

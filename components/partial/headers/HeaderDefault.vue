@@ -237,10 +237,10 @@ import WishlistMenu from "~/components/partial/headers/shared/WishlistMenu.vue";
 import MainMenu from "~/components/partial/headers/shared/MainMenu.vue";
 import HeaderSearch from "~/components/partial/headers/shared/HeaderSearch.vue";
 import StickyHeader from "~/components/elements/StickyHeader.vue";
-
+const route = useRouter();
 // State and Router
 const isFullwidth = computed(() => {
-  return useRouter().currentRoute.value.path.includes("fullwidth");
+  return route.currentRoute.value.path.includes("fullwidth");
 });
 
 // Modal Function

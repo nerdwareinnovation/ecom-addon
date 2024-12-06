@@ -9,6 +9,7 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", "acceptHMRUpdate"],
       },
     ],
+    "pinia-plugin-persistedstate/nuxt",
     "nuxt-swiper",
     "nuxt-easy-lightbox",
   ],

@@ -284,8 +284,6 @@ const router = useRouter();
 
 const getProducts = async (samePage = false) => {
   type.value = route.params.type;
-  console.log(type.value);
-  console.log("pageTitle");
 
   switch (type.value) {
     case "list":
@@ -323,10 +321,10 @@ const getProducts = async (samePage = false) => {
     // totalCount.value = response.data.totalCount;
 
     //working product fetch from api
-    // const response = await Repository.get(`${baseUrl}/api/Products`);
-    // products.value = response.data.products;
-    // totalCount.value = response.data.totalRows;
-    // loaded.value = true;
+    const response = await Repository.get(`${baseUrl}/api/Products`);
+    products.value = response.data.products;
+    totalCount.value = response.data.totalRows;
+    loaded.value = true;
 
     if (samePage) {
       scrollToPageContent();

@@ -1,6 +1,6 @@
 // stores/wishlist.js
 import { defineStore } from "pinia";
-import { useCartStore } from "./cart"; // Assuming you have a cart store
+// import { useCartStore } from "./cart"; // Assuming you have a cart store
 
 export const useWishlistStore = defineStore("wishlist", {
   state: () => ({
@@ -21,11 +21,13 @@ export const useWishlistStore = defineStore("wishlist", {
 
   actions: {
     addToWishlist(product) {
+      const { $toast } = useNuxtApp();
+
       if (!this.isInWishlist(product)) {
         this.data.push(product);
 
         // Toast notification
-        this.$nuxt.$toast.success("Product added to wishlist", {
+        $toast.success("Product added to wishlist", {
           position: "top-right",
           duration: 1500,
         });
@@ -33,26 +35,31 @@ export const useWishlistStore = defineStore("wishlist", {
     },
 
     removeFromWishlist(product) {
+      const { $toast } = useNuxtApp();
+
       this.data = this.data.filter((item) => item.id !== product.id);
 
       // Toast notification
-      this.$nuxt.$toast.success("Product removed from wishlist", {
+      $toast.success("Product removed from wishlist", {
         position: "top-right",
         duration: 1500,
       });
     },
 
     moveToCart(product) {
-      const cartStore = useCartStore(); // Access the cart store
+      const { $toast } = useNuxtApp();
 
-      this.removeFromWishlist(product); // Remove from wishlist
+      const cartStore = useCartStore();
+
+      // this.removeFromWishlist(product);
       cartStore.addToCart({ product, qty: 1 }); // Add to cart
 
       // Toast notification
-      this.$nuxt.$toast.success("Product moved to cart", {
+      $toast.success("Product moved to cart", {
         position: "top-right",
         duration: 1500,
       });
     },
   },
+  persist: true,
 });

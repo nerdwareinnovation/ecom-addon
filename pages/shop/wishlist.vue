@@ -33,18 +33,16 @@
               <td class="product-col">
                 <div class="product">
                   <figure class="product-media">
-                    <nuxt-link :to="'/product/default/' + product.slug">
+                    <nuxt-link :to="'/product/default/' + product.name">
                       <img
-                        v-lazy="`${baseUrl}${product.sm_pictures[0].url}`"
+                        v-lazy="`${baseUrl}/${product.image}`"
                         alt="Product"
-                        :width="product.sm_pictures[0].width"
-                        :height="product.sm_pictures[0].height"
                       />
                     </nuxt-link>
                   </figure>
 
                   <h3 class="product-title">
-                    <nuxt-link :to="'/product/default/' + product.slug">{{
+                    <nuxt-link :to="'/product/default/' + product.name">{{
                       product.name
                     }}</nuxt-link>
                   </h3>
@@ -60,7 +58,10 @@
                 </div>
 
                 <template v-else>
-                  <div
+                  <div class="product-price d-inline-block mb-0">
+                    ${{ product.price.toFixed(2) }}
+                  </div>
+                  <!-- <div
                     class="product-price d-inline-block mb-0"
                     v-if="product.minPrice == product.maxPrice"
                   >
@@ -83,7 +84,8 @@
                         product.maxPrice.toFixed(2)
                       }}
                     </div>
-                  </template>
+                   
+                  </template> -->
                 </template>
               </td>
               <td class="stock-col">
@@ -102,7 +104,7 @@
               </td>
               <td class="action-col">
                 <div class="dropdown">
-                  <nuxt-link
+                  <!-- <nuxt-link
                     class="btn btn-block btn-outline-primary-2"
                     :to="'/product/default/' + product.slug"
                     v-if="product.variants.length > 0"
@@ -115,13 +117,19 @@
                     v-else
                   >
                     <i class="icon-cart-plus"></i>Add to Cart
+                  </button> -->
+                  <button
+                    class="btn btn-block btn-outline-primary-2"
+                    @click.prevent="moveToCart(product)"
+                  >
+                    <i class="icon-cart-plus"></i>Add to Cart
                   </button>
                 </div>
               </td>
               <td class="remove-col">
                 <button
                   class="btn-remove"
-                  @click.prevent="removeFromWishlist({ product: product })"
+                  @click.prevent="removeFromWishlist(product)"
                 >
                   <i class="icon-close"></i>
                 </button>
@@ -218,20 +226,21 @@ import PageHeader from "~/components/elements/PageHeader";
 import { baseUrl } from "~/repositories/repository.js";
 
 const wishlistStore = useWishlistStore();
+
 const wishItems = computed(() =>
   wishlistStore.wishlist.reduce((acc, product) => {
     let max = 0;
     let min = 999999;
 
-    product.variants.map((item) => {
-      if (min > item.price) min = item.price;
-      if (max < item.price) max = item.price;
-    });
+    // product.variants.map((item) => {
+    //   if (min > item.price) min = item.price;
+    //   if (max < item.price) max = item.price;
+    // });
 
-    if (product.variants.length === 0) {
-      min = product.sale_price ? product.sale_price : product.price;
-      max = product.price;
-    }
+    // if (product.variants.length === 0) {
+    //   min = product.sale_price ? product.sale_price : product.price;
+    //   max = product.price;
+    // }
 
     return [
       ...acc,
