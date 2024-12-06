@@ -34,12 +34,14 @@ export const useCartStore = defineStore("cart", {
 
   actions: {
     addToCart(payload) {
-      console.log(payload.qty);
+      // console.log(payload.qty);
       const { $toast } = useNuxtApp();
-      if (!this.canAddToCart(payload.product, payload.qty)) {
-        $toast.error("Sorry, you can't add that amount to the cart.");
-        return;
-      }
+      console.log(this.cartList);
+      console.log(this.canAddToCart(payload.product,payload.qty));
+      // if (!this.canAddToCart(payload.product, payload.qty)) {
+      //   $toast.error("Sorry, you can't add that amount to the cart.");
+      //   return;
+      // }
 
       const findIndex = this.data.findIndex(
         (item) => item.id === payload.product.id

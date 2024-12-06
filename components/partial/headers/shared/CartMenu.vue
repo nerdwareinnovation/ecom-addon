@@ -38,10 +38,8 @@
               class="product-image"
             >
               <img
-                v-lazy="`${baseUrl}${product.sm_pictures[0].url}`"
+                v-lazy="`${baseUrl}/${product.image}`"
                 alt="product"
-                :width="product.sm_pictures[0].width"
-                :height="product.sm_pictures[0].height"
               />
             </nuxt-link>
           </figure>
