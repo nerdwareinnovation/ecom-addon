@@ -523,3 +523,34 @@ export default {
   },
 };
 </script>
+
+<!-- <template>
+  <div>
+    <component :is="currentPage" />
+  </div>
+</template>
+
+<script setup>
+import { useRoute } from "#app";
+import { computed, defineAsyncComponent } from "vue";
+
+const route = useRoute();
+
+const slug = computed(() => route.params.slug);
+
+const currentPage = computed(() => {
+  switch (slug.value) {
+    case "main":
+      return defineAsyncComponent(() => import("@/pages/homepage/main.vue"));
+
+    case "index1":
+      return defineAsyncComponent(() => import("@/pages/homepage/index1.vue"));
+
+    case "index2":
+      return defineAsyncComponent(() => import("@/pages/homepage/index2.vue"));
+
+    default:
+      return defineAsyncComponent(() => import("@/pages/homepage/main.vue"));
+  }
+});
+</script> -->

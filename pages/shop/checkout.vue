@@ -186,14 +186,18 @@
                         </h2>
                       </div>
 
-                      <vue-slide-toggle :open="toggleState[0]">
+                      <Vue3SlideUpDown
+                        v-model="toggleState[0]"
+                        class="show"
+                        :duration="200"
+                      >
                         <div class="card-body">
                           Make your payment directly into our bank account.
                           Please use your Order ID as the payment reference.
                           Your order will not be shipped until the funds have
                           cleared in our account.
                         </div>
-                      </vue-slide-toggle>
+                      </Vue3SlideUpDown>
                     </div>
 
                     <div class="card">
@@ -212,13 +216,17 @@
                         </h2>
                       </div>
 
-                      <vue-slide-toggle :open="toggleState[1]">
+                      <Vue3SlideUpDown
+                        v-model="toggleState[1]"
+                        class="show"
+                        :duration="200"
+                      >
                         <div class="card-body">
                           Ipsum dolor sit amet, consectetuer adipiscing elit.
                           Donec odio. Quisque volutpat mattis eros. Nullam
                           malesuada erat ut turpis.
                         </div>
-                      </vue-slide-toggle>
+                      </Vue3SlideUpDown>
                     </div>
 
                     <div class="card">
@@ -237,13 +245,17 @@
                         </h2>
                       </div>
 
-                      <vue-slide-toggle :open="toggleState[2]">
+                      <Vue3SlideUpDown
+                        v-model="toggleState[2]"
+                        class="show"
+                        :duration="200"
+                      >
                         <div class="card-body">
                           Quisque volutpat mattis eros. Lorem ipsum dolor sit
                           amet, consectetuer adipiscing elit. Donec odio.
                           Quisque volutpat mattis eros.
                         </div>
-                      </vue-slide-toggle>
+                      </Vue3SlideUpDown>
                     </div>
 
                     <div class="card">
@@ -266,13 +278,17 @@
                         </h2>
                       </div>
 
-                      <vue-slide-toggle :open="toggleState[3]">
+                      <Vue3SlideUpDown
+                        v-model="toggleState[3]"
+                        class="show"
+                        :duration="200"
+                      >
                         <div class="card-body">
                           Nullam malesuada erat ut turpis. Suspendisse urna
                           nibh, viverra non, semper suscipit, posuere a, pede.
                           Donec nec justo eget felis facilisis fermentum.
                         </div>
-                      </vue-slide-toggle>
+                      </Vue3SlideUpDown>
                     </div>
 
                     <div class="card">
@@ -297,14 +313,18 @@
                         </h2>
                       </div>
 
-                      <vue-slide-toggle :open="toggleState[4]">
+                      <Vue3SlideUpDown
+                        v-model="toggleState[4]"
+                        class="show"
+                        :duration="200"
+                      >
                         <div class="card-body">
                           Donec nec justo eget felis facilisis fermentum.Lorem
                           ipsum dolor sit amet, consectetuer adipiscing elit.
                           Donec odio. Quisque volutpat mattis eros. Lorem ipsum
                           dolor sit ame.
                         </div>
-                      </vue-slide-toggle>
+                      </Vue3SlideUpDown>
                     </div>
                   </div>
 
@@ -326,7 +346,7 @@
 </template>
 <!-- <script>
 import { mapGetters } from 'vuex';
-import { VueSlideToggle } from 'vue-slide-toggle';
+import { VueSlideToggle } from 'Vue3SlideUpDown';
 import PageHeader from '~/components/elements/PageHeader';
 
 export default {
@@ -360,7 +380,8 @@ export default {
 };
 </script> -->
 <script setup>
-import { VueSlideToggle } from "vue-slide-toggle";
+// import { VueSlideToggle } from "Vue3SlideUpDown";
+import { Vue3SlideUpDown } from "vue3-slide-up-down";
 import PageHeader from "~/components/elements/PageHeader";
 
 const toggleState = ref([true, false, false, false, false]);
@@ -377,8 +398,14 @@ const clickCoupon = (event) => {
 };
 
 const changeToggle = (index1) => {
-  toggleState.value = toggleState.value.map((cur, index) => {
-    return index === index1 ? !cur : false;
-  });
+  // toggleState.value = toggleState.value.map((cur, index) => {
+  //   return index === index1 ? !cur : false;
+  // });
+  toggleState.value = toggleState.value.map((state, id) =>
+    id === index1 ? !state : state
+  );
+  // console.log(
+  //   "index:" + index1 + "," + "toggle value:" + toggleState.value[index1]
+  // );
 };
 </script>

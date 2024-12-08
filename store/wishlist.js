@@ -51,8 +51,8 @@ export const useWishlistStore = defineStore("wishlist", {
 
       const cartStore = useCartStore();
 
-      // this.removeFromWishlist(product);
-      cartStore.addToCart({ product, qty: 1 }); // Add to cart
+      this.removeFromWishlist(product);
+      cartStore.addToCart({ product, qty: 1 });
 
       // Toast notification
       $toast.success("Product moved to cart", {

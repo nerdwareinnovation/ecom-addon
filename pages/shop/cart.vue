@@ -38,16 +38,14 @@
                         <figure class="product-media">
                           <nuxt-link :to="'/product/default/' + product.slug">
                             <img
-                              v-lazy="`${baseUrl}${product.sm_pictures[0].url}`"
+                              v-lazy="`${baseUrl}/${product.image}`"
                               alt="Product"
-                              :width="product.sm_pictures[0].width"
-                              :height="product.sm_pictures[0].height"
                             />
                           </nuxt-link>
                         </figure>
 
                         <h3 class="product-title">
-                          <nuxt-link :to="'/product/default/' + product.slug">{{
+                          <nuxt-link :to="'/product/default/' + product.name">{{
                             product.name
                           }}</nuxt-link>
                         </h3>
@@ -295,7 +293,7 @@ import QuantityInput from "~/components/elements/QuantityInput";
 import { baseUrl as importedUrl } from "~/repositories/repository";
 
 const cartStore = useCartStore();
-const CartItems = ref([]);
+const cartItems = ref([]);
 const shipping = ref(0);
 const baseUrl = importedUrl;
 
@@ -311,8 +309,8 @@ const removeFromCart = (product) => {
   cartStore.removeFromCart(product);
 };
 
-const updateCart = () => {
-  cartStore.updateCart(CartItems.value);
+const updateCart = (cartItems) => {
+  cartStore.updateCart(cartItems);
 };
 
 const changeQty = (value, product) => {
@@ -332,7 +330,7 @@ const changeQty = (value, product) => {
   }, []);
 };
 
-// onMounted(() => {
-cartItems.value = [...cartList.value];
-// });
+onMounted(() => {
+  cartItems.value = [...cartList.value];
+});
 </script>

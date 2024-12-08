@@ -26,9 +26,11 @@ export const useCartStore = defineStore("cart", {
         const existingItem = state.data.find((item) => item.id === product.id);
 
         if (existingItem) {
-          return product.stock > 0 && product.stock >= existingItem.qty + qty;
+          return (
+            product.quantity > 0 && product.quantity >= existingItem.qty + qty
+          );
         }
-        return product.stock > 0 && product.stock >= qty;
+        return product.quantity > 0 && product.quantity >= qty;
       },
   },
 

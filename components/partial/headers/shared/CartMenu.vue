@@ -17,7 +17,7 @@
         <div class="product" v-for="(product, index) in cartList" :key="index">
           <div class="product-cart-details">
             <h4 class="product-title">
-              <nuxt-link :to="'/product/default/' + product.slug">{{
+              <nuxt-link :to="'/product/default/' + product.name">{{
                 product.name
               }}</nuxt-link>
             </h4>
@@ -34,15 +34,16 @@
 
           <figure class="product-image-container">
             <nuxt-link
-              :to="'/product/default/' + product.slug"
+              :to="'/product/default/' + product.name"
               class="product-image"
             >
-              <img
+              <!-- <img
                 v-lazy="`${baseUrl}${product.sm_pictures[0].url}`"
                 alt="product"
                 :width="product.sm_pictures[0].width"
                 :height="product.sm_pictures[0].height"
-              />
+              /> -->
+              <img v-lazy="`${baseUrl}/${product.image}`" alt="product" />
             </nuxt-link>
           </figure>
           <a

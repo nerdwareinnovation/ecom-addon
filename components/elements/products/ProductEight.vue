@@ -33,7 +33,7 @@
       </div>
 
       <div class="col-lg-6 col-md-6 order-last">
-        <div class="product-body product-action-inner">
+        <div class="product-body product-action-inner w-100">
           <!-- <div class="product-cat">
             <span v-for="(cat, index) of product.category" :key="index">
               <nuxt-link
@@ -270,6 +270,6 @@ const quickView = () => {
 
 <style scoped>
 .product-title {
-  width: 100%;
+  width: 100% !important;
 }
 </style>
