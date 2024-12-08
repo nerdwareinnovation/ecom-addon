@@ -252,7 +252,7 @@ const addToCart = (product) => {
   cartStore.addToCart(product);
 };
 const addToWishlist = (product) => {
-  console.log(props.prodcut);
+  // console.log(props.prodcut);
   wishlistStore.addToWishlist(product);
 };
 const addToCompare = (prodcut) => {
